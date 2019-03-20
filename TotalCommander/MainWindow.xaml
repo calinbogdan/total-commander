@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:TotalCommander"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <local:MainViewModel x:Name="MainViewModel"/>
+    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -22,6 +26,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0" DataContext="{Binding LeftGridViewModel}">
+                
+            </DockPanel>
+            <StackPanel Grid.Column="1"/>
+            <DockPanel Grid.Column="2" DataContext="{Binding RightGridViewModel}">
+                <DataGrid ItemsSource="{Binding Files}"/>
+            </DockPanel>
         </Grid>
     </DockPanel>
     
