@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,9 +8,14 @@ using TotalCommander.Services.Files;
 
 namespace TotalCommander
 {
-    class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
-        public GridViewModel LeftGridViewModel { get; set; }
-        public GridViewModel RightGridViewModel { get; set; }
+        public GridViewModel LeftGridViewModel { get; private set; }
+        public GridViewModel RightGridViewModel { get; private set; }
+
+        public MainViewModel(GridViewModel leftGridViewModel, GridViewModel rightGridViewModel)
+        {
+            var stringg = "Say Hello";
+        }
     }
 }

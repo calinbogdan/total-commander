@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -14,8 +17,16 @@ namespace TotalCommander
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
-        { 
-            base.OnStartup(e);
+        {
+            var container = new WindsorContainer();
+            container.Install(FromAssembly.This());
+
+            container.Register(Component.For<MainWindow>());
+
+            var king = container.Resolve<MainWindow>();
+            king.Show();
+
+            container.Dispose();
         }
     }
 }

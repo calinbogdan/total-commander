@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Window.DataContext>
-        <local:MainViewModel x:Name="MainViewModel"/>
+        <local:MainViewModel/>
     </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -31,7 +31,8 @@
             </DockPanel>
             <StackPanel Grid.Column="1"/>
             <DockPanel Grid.Column="2" DataContext="{Binding RightGridViewModel}">
-                <DataGrid ItemsSource="{Binding Files}"/>
+                <TextBlock Text="{Binding Path=Path}" DockPanel.Dock="Top"/>
+                <DataGrid ItemsSource="{Binding Files}" DockPanel.Dock="Bottom"/>
             </DockPanel>
         </Grid>
     </DockPanel>

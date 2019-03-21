@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TotalCommander.Services.Files
 {
-    class FileService : IFileService
+    public class FileService : IFileService
     {
         public IEnumerable<FileInfo> GetFiles(string path)
         {
