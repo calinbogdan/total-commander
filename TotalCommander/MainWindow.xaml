@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TotalCommander"
+        xmlns:local1="clr-namespace:TotalCommander.ValueConverters"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="720" Width="1280">
@@ -11,6 +12,9 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <local1:FileNameExtensionRemovalConverter x:Key="ExtensionConverter"/>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -28,7 +32,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" DataContext="{Binding LeftGridViewModel}">
-                <TextBlock Text="{Binding Path}" DockPanel.Dock="Top"/>
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                    <ComboBox ItemsSource="{Binding Drives}"
+                              DisplayMemberPath="Name"
+                              SelectedIndex="0"/>
+                    <TextBlock Text="{Binding CurrentPath}"/>
+                </StackPanel>
                 <DataGrid ItemsSource="{Binding Files}" 
                           DockPanel.Dock="Bottom" 
                           AutoGenerateColumns="False"
@@ -43,33 +53,35 @@
                                       Command="{Binding ChangePathCommand}"
                                       CommandParameter="{Binding SelectedItem}"/>
                     </DataGrid.InputBindings>
-                </DataGrid>                
+                </DataGrid>
             </DockPanel>
-            <StackPanel Grid.Column="1"/>
             <DockPanel Grid.Column="2" DataContext="{Binding RightGridViewModel}">
-                <Grid DockPanel.Dock="Top">
-                    <ComboBox ItemsSource="{Binding Path=Drives}"
-                              Height="100"
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                    <ComboBox ItemsSource="{Binding Drives}"
                               DisplayMemberPath="Name"
-                              SelectedValuePath="Name"
-                              IsEditable="False"/>
-                    <TextBlock Text="{Binding Path}"/>                    
-                </Grid>
-                <!--<DataGrid ItemsSource="{Binding Files}" 
+                              SelectedIndex="0"
+                              SelectedItem="{Binding SelectedDrive}"/>
+                    <TextBlock Text="{Binding CurrentPath}"/>                     
+                </StackPanel>
+                <DataGrid Name="rightDataGrid"
+                    ItemsSource="{Binding Files}" 
                           DockPanel.Dock="Bottom" 
                           AutoGenerateColumns="False"
                           HeadersVisibility="Column"
                           GridLinesVisibility="None">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Title" Binding="{Binding Name, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Size" Binding="{Binding Length}"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Name, Mode=OneWay, Converter={StaticResource ExtensionConverter}}"/>
+                        <DataGridTextColumn Header="Size" Binding="{Binding Length, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Extension" Binding="{Binding Extension, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding LastWriteTime, Mode=OneWay, StringFormat='dd/MM/yyyy'}"/>
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
                                       Command="{Binding ChangePathCommand}"
-                                      CommandParameter="{Binding SelectedItem}"/>
+                                      CommandParameter="{Binding Path=SelectedItem, ElementName=rightDataGrid}"/>
                     </DataGrid.InputBindings>
-                </DataGrid>-->
+                </DataGrid>
             </DockPanel>
         </Grid>
     </DockPanel>

@@ -11,7 +11,7 @@ namespace TotalCommander.Services.Files
     {
         public IEnumerable<FileInfo> GetFiles(string path)
         {
-            return Directory.GetFiles(path).Select(file => new FileInfo(file));
+            return Directory.GetFiles(path, "*").Select(file => new FileInfo(file));
         }
     }
 }

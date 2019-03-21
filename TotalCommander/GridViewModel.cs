@@ -18,23 +18,33 @@ namespace TotalCommander
     {
         private readonly IFileService _fileService;
         private string _path = "";
+        private DriveInfo _selectedDrive;
 
         public ChangePathCommand ChangePathCommand
         {
-            get => new ChangePathCommand(ChangePath);
+            get => new ChangePathCommand(newPath => CurrentPath = newPath);
         }
 
-        public DriveInfo SelectedDrive { get;set; }
-        public ObservableCollection<DriveData> Drives { get; private set; }
+        public DriveInfo SelectedDrive 
+        {
+            get => _selectedDrive;
+            set {
+                _selectedDrive = value;
+                OnPropertyChanged("SelectedDrive");
+                CurrentPath = value.RootDirectory.FullName;
+            }
+        }
+
+        public ObservableCollection<DriveInfo> Drives { get; private set; }
 
         public ObservableCollection<FileInfo> Files { get; private set; }
 
-        public string Path {
+        public string CurrentPath {
             get => _path;
             set {
                 _path = value;
                 UpdateFiles(_path);
-                OnPropertyChanged("Path");
+                OnPropertyChanged("CurrentPath");
             }
         }
 
@@ -42,13 +52,10 @@ namespace TotalCommander
         {
             _fileService = new FileService();
             Files = new ObservableCollection<FileInfo>();
-            Drives = new ObservableCollection<DriveData>();
+            Drives = new ObservableCollection<DriveInfo>();
 
             // init combo box items
-            // DriveInfo.GetDrives().ToList().ForEach(Drives.Add);
-
-            Enumerable.Range(5, 15).ToList().ForEach(index => Drives.Add(new DriveData() { Name = $"Drive #{index}" }));
-
+            DriveInfo.GetDrives().ToList().ForEach(Drives.Add);
             OnPropertyChanged("Drives");
         }
 
@@ -57,11 +64,6 @@ namespace TotalCommander
             Files.Clear();
             _fileService.GetFiles(newPath).ToList().ForEach(Files.Add);
             OnPropertyChanged("Files");
-        }
-
-        private void ChangePath()
-        {
-            Path = Directory.GetCurrentDirectory();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,9 @@ namespace TotalCommander
     {
         public event EventHandler CanExecuteChanged;
 
-        private readonly Action _changePathAction;
+        private readonly Action<string> _changePathAction;
 
-        public ChangePathCommand(Action changePathAction)
+        public ChangePathCommand(Action<string> changePathAction)
         {
             _changePathAction = changePathAction;
         }
@@ -26,7 +27,10 @@ namespace TotalCommander
 
         public void Execute(object parameter)
         {
-            _changePathAction();
+            var fileInfo = parameter as FileInfo;
+            var fullName = fileInfo.FullName;
+
+            _changePathAction(fullName);
         }
     }
 }
