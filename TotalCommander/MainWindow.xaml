@@ -31,7 +31,10 @@
             </DockPanel>
             <StackPanel Grid.Column="1"/>
             <DockPanel Grid.Column="2" DataContext="{Binding RightGridViewModel}">
-                <TextBlock Text="{Binding Path=Path}" DockPanel.Dock="Top"/>
+                <TextBlock Text="{Binding Path}" DockPanel.Dock="Top"/>
+                <Button Command="{Binding ChangePathCommand}">
+                    Click me!
+                </Button>
                 <DataGrid ItemsSource="{Binding Files}" DockPanel.Dock="Bottom"/>
             </DockPanel>
         </Grid>

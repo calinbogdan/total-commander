@@ -24,6 +24,7 @@ namespace TotalCommander
 
         public MainWindow()
         {
+            ViewModel = new MainViewModel();
             InitializeComponent();
         }
     }

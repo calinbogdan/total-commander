@@ -13,9 +13,10 @@ namespace TotalCommander
         public GridViewModel LeftGridViewModel { get; private set; }
         public GridViewModel RightGridViewModel { get; private set; }
 
-        public MainViewModel(GridViewModel leftGridViewModel, GridViewModel rightGridViewModel)
+        public MainViewModel()
         {
-            var stringg = "Say Hello";
+            LeftGridViewModel = new GridViewModel();
+            RightGridViewModel = new GridViewModel();
         }
     }
 }
