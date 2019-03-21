@@ -9,6 +9,11 @@ using TotalCommander.Services.Files;
 
 namespace TotalCommander
 {
+    public class DriveData
+    {
+        public string Name { get; set; }
+    }
+
     public class GridViewModel : ViewModelBase
     {
         private readonly IFileService _fileService;
@@ -19,6 +24,9 @@ namespace TotalCommander
             get => new ChangePathCommand(ChangePath);
         }
 
+        public DriveInfo SelectedDrive { get;set; }
+        public ObservableCollection<DriveData> Drives { get; private set; }
+
         public ObservableCollection<FileInfo> Files { get; private set; }
 
         public string Path {
@@ -26,7 +34,7 @@ namespace TotalCommander
             set {
                 _path = value;
                 UpdateFiles(_path);
-                OnPropertyChanged("Files");
+                OnPropertyChanged("Path");
             }
         }
 
@@ -34,6 +42,14 @@ namespace TotalCommander
         {
             _fileService = new FileService();
             Files = new ObservableCollection<FileInfo>();
+            Drives = new ObservableCollection<DriveData>();
+
+            // init combo box items
+            // DriveInfo.GetDrives().ToList().ForEach(Drives.Add);
+
+            Enumerable.Range(5, 15).ToList().ForEach(index => Drives.Add(new DriveData() { Name = $"Drive #{index}" }));
+
+            OnPropertyChanged("Drives");
         }
 
         private void UpdateFiles(string newPath)

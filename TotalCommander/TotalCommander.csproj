@@ -74,6 +74,7 @@
     <Compile Include="GridViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Modules\ServicesInstaller.cs" />
+    <Compile Include="Services\Files\FileData.cs" />
     <Compile Include="Services\Files\FileService.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="ViewModelBase.cs" />
