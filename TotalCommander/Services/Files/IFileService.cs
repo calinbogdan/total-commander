@@ -9,6 +9,6 @@ namespace TotalCommander.Services.Files
 {
     public interface IFileService
     {
-        IEnumerable<FileInfo> GetFiles(string path);
+        IEnumerable<FileSystemInfo> GetFileSystemEntries(string path);
     }
 }

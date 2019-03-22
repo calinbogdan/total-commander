@@ -22,12 +22,12 @@ namespace TotalCommander
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return (parameter.GetType() == typeof(DirectoryInfo));
         }
 
         public void Execute(object parameter)
         {
-            var fileInfo = parameter as FileInfo;
+            var fileInfo = parameter as DirectoryInfo;
             var fullName = fileInfo.FullName;
 
             _changePathAction(fullName);

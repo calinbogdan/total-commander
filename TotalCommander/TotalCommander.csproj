@@ -92,7 +92,7 @@
     <Compile Include="Modules\ServicesInstaller.cs" />
     <Compile Include="Services\Files\FileService.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
-    <Compile Include="ValueConverters\FileNameExtensionRemovalConverter.cs" />
+    <Compile Include="Converters\FileNameExtensionRemovalConverter.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

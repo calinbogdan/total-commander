@@ -9,9 +9,13 @@ namespace TotalCommander.Services.Files
 {
     public class FileService : IFileService
     {
-        public IEnumerable<FileInfo> GetFiles(string path)
+
+        public IEnumerable<FileSystemInfo> GetFileSystemEntries(string path)
         {
-            return Directory.GetFiles(path, "*").Select(file => new FileInfo(file));
+            var fileSystemEntries = new List<FileSystemInfo>();
+            fileSystemEntries.AddRange(Directory.GetDirectories(path).Select(directory => new DirectoryInfo(directory)));
+            fileSystemEntries.AddRange(Directory.GetFiles(path).Select(file => new FileInfo(file)));
+            return fileSystemEntries;
         }
     }
 }

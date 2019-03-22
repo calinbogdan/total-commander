@@ -37,7 +37,7 @@ namespace TotalCommander
 
         public ObservableCollection<DriveInfo> Drives { get; private set; }
 
-        public ObservableCollection<FileInfo> Files { get; private set; }
+        public ObservableCollection<FileSystemInfo> Files { get; private set; }
 
         public string CurrentPath {
             get => _path;
@@ -51,7 +51,7 @@ namespace TotalCommander
         public GridViewModel()
         {
             _fileService = new FileService();
-            Files = new ObservableCollection<FileInfo>();
+            Files = new ObservableCollection<FileSystemInfo>();
             Drives = new ObservableCollection<DriveInfo>();
 
             // init combo box items
@@ -62,7 +62,7 @@ namespace TotalCommander
         private void UpdateFiles(string newPath)
         {
             Files.Clear();
-            _fileService.GetFiles(newPath).ToList().ForEach(Files.Add);
+            _fileService.GetFileSystemEntries(newPath).ToList().ForEach(Files.Add);
             OnPropertyChanged("Files");
         }
     }

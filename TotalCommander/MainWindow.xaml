@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TotalCommander"
-        xmlns:local1="clr-namespace:TotalCommander.ValueConverters"
+        xmlns:converters="clr-namespace:TotalCommander.Converters"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="720" Width="1280">
@@ -13,7 +14,8 @@
         <local:MainViewModel/>
     </Window.DataContext>
     <Window.Resources>
-        <local1:FileNameExtensionRemovalConverter x:Key="ExtensionConverter"/>
+        <converters:FileNameExtensionRemovalConverter x:Key="ExtensionConverter"/>
+        <system:String x:Key="DateFormat">dd/MM/yyyy HH:mm</system:String>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -36,22 +38,26 @@
                             Orientation="Horizontal">
                     <ComboBox ItemsSource="{Binding Drives}"
                               DisplayMemberPath="Name"
-                              SelectedIndex="0"/>
+                              SelectedIndex="0"
+                              SelectedItem="{Binding SelectedDrive}"/>
                     <TextBlock Text="{Binding CurrentPath}"/>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding Files}" 
+                <DataGrid Name="leftDataGrid"
+                          ItemsSource="{Binding Files}" 
                           DockPanel.Dock="Bottom" 
                           AutoGenerateColumns="False"
                           HeadersVisibility="Column"
                           GridLinesVisibility="None">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Title" Binding="{Binding Name, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Size" Binding="{Binding Length}"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Name, Mode=OneWay, Converter={StaticResource ExtensionConverter}}"/>
+                        <DataGridTextColumn Header="Size" Binding="{Binding Length, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Extension" Binding="{Binding Extension, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding LastWriteTime, Mode=OneWay, StringFormat={StaticResource DateFormat}}"/>
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
                                       Command="{Binding ChangePathCommand}"
-                                      CommandParameter="{Binding SelectedItem}"/>
+                                      CommandParameter="{Binding Path=SelectedItem, ElementName=leftDataGrid}"/>
                     </DataGrid.InputBindings>
                 </DataGrid>
             </DockPanel>
@@ -65,7 +71,7 @@
                     <TextBlock Text="{Binding CurrentPath}"/>                     
                 </StackPanel>
                 <DataGrid Name="rightDataGrid"
-                    ItemsSource="{Binding Files}" 
+                          ItemsSource="{Binding Files}" 
                           DockPanel.Dock="Bottom" 
                           AutoGenerateColumns="False"
                           HeadersVisibility="Column"
@@ -74,7 +80,7 @@
                         <DataGridTextColumn Header="Title" Binding="{Binding Name, Mode=OneWay, Converter={StaticResource ExtensionConverter}}"/>
                         <DataGridTextColumn Header="Size" Binding="{Binding Length, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Extension" Binding="{Binding Extension, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding LastWriteTime, Mode=OneWay, StringFormat='dd/MM/yyyy'}"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding LastWriteTime, Mode=OneWay, StringFormat={StaticResource DateFormat}}"/>
                     </DataGrid.Columns>
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"

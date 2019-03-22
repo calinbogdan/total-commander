@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace TotalCommander.ValueConverters
+namespace TotalCommander.Converters
 {
     class FileNameExtensionRemovalConverter : IValueConverter
     {
@@ -14,7 +14,7 @@ namespace TotalCommander.ValueConverters
         {
             string fileName = value as string;
             int extensionDotIndex = fileName.LastIndexOf('.');
-            return fileName.Substring(0, extensionDotIndex);
+            return (extensionDotIndex > 0) ? fileName.Substring(0, extensionDotIndex) : fileName;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
