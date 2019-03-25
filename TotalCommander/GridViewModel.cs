@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TotalCommander.Services.Files;
 
 namespace TotalCommander
@@ -20,9 +21,14 @@ namespace TotalCommander
         private string _path = "";
         private DriveInfo _selectedDrive;
 
-        public ChangePathCommand ChangePathCommand
+        public ChangeDirectoryCommand ChangePathCommand
         {
-            get => new ChangePathCommand(newPath => CurrentPath = newPath);
+            get => new ChangeDirectoryCommand(newPath => CurrentPath = newPath);
+        }
+
+        public DelegateCommand GoBackCommand
+        {
+            get => new DelegateCommand(ChangePathToParentDirectory);
         }
 
         public DriveInfo SelectedDrive 
@@ -64,6 +70,11 @@ namespace TotalCommander
             Files.Clear();
             _fileService.GetFileSystemEntries(newPath).ToList().ForEach(Files.Add);
             OnPropertyChanged("Files");
+        }
+
+        private void ChangePathToParentDirectory()
+        {
+            CurrentPath = CurrentPath.Substring(0, CurrentPath.LastIndexOf('\\') + 1);
         }
     }
 }

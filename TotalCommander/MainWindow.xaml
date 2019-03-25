@@ -61,9 +61,20 @@
                     </DataGrid.InputBindings>
                 </DataGrid>
             </DockPanel>
+            <StackPanel Grid.Column="1">
+                <Button>
+                    Delete
+                </Button>
+                <Button>
+                    Copy
+                </Button>
+            </StackPanel>
             <DockPanel Grid.Column="2" DataContext="{Binding RightGridViewModel}">
                 <StackPanel DockPanel.Dock="Top"
                             Orientation="Horizontal">
+                    <Button Command="{Binding GoBackCommand}">
+                        Back
+                    </Button>
                     <ComboBox ItemsSource="{Binding Drives}"
                               DisplayMemberPath="Name"
                               SelectedIndex="0"

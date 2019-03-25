@@ -9,13 +9,13 @@ using System.Windows.Input;
 
 namespace TotalCommander
 {
-    public class ChangePathCommand : ICommand
+    public class ChangeDirectoryCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private readonly Action<string> _changePathAction;
 
-        public ChangePathCommand(Action<string> changePathAction)
+        public ChangeDirectoryCommand(Action<string> changePathAction)
         {
             _changePathAction = changePathAction;
         }
