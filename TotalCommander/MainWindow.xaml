@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TotalCommander"
         xmlns:converters="clr-namespace:TotalCommander.Converters"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="720" Width="1280">
@@ -27,7 +28,7 @@
             <MenuItem Header="_Edit"/>
             <MenuItem Header="_Help"/>
         </Menu>
-        <Grid>
+        <Grid Name="rootLayoutGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -42,6 +43,7 @@
                               SelectedItem="{Binding SelectedDrive}"/>
                     <TextBlock Text="{Binding CurrentPath}"/>
                 </StackPanel>
+                
                 <DataGrid Name="leftDataGrid"
                           ItemsSource="{Binding Files}" 
                           DockPanel.Dock="Bottom" 
@@ -59,10 +61,15 @@
                                       Command="{Binding ChangePathCommand}"
                                       CommandParameter="{Binding Path=SelectedItem, ElementName=leftDataGrid}"/>
                     </DataGrid.InputBindings>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="GotFocus">
+                            
+                        </i:EventTrigger>                        
+                    </i:Interaction.Triggers>
                 </DataGrid>
             </DockPanel>
             <StackPanel Grid.Column="1">
-                <Button>
+                <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=rootLayoutGrid, Path=}">
                     Delete
                 </Button>
                 <Button>

@@ -21,6 +21,8 @@ namespace TotalCommander
         private string _path = "";
         private DriveInfo _selectedDrive;
 
+        public bool GridFocused { get; set; }
+
         public ChangeDirectoryCommand ChangePathCommand
         {
             get => new ChangeDirectoryCommand(newPath => CurrentPath = newPath);
