@@ -14,9 +14,11 @@ namespace TotalCommander
         public GridViewModel LeftGridViewModel { get; private set; }
         public GridViewModel RightGridViewModel { get; private set; }
 
+        public FileSystemInfo SelectedFile { get; set; }
+
         public DeleteCommand DeleteCommand
         {
-            get => new DeleteCommand(file => DeleteFile(file));
+            get => new DeleteCommand(() => DeleteFile(SelectedFile));
         }
 
         public MainViewModel()
@@ -25,9 +27,23 @@ namespace TotalCommander
             RightGridViewModel = new GridViewModel();
         }
 
-        private void DeleteFile(object file)
+        private void DeleteFile(object fileData)
         {
-            MessageBox.Show($"{file.ToString()} deleted");
+            if (fileData is DirectoryInfo directory)
+            {
+                if (directory.EnumerateFileSystemInfos().Count() > 0)
+                {
+                    var dialogResult = MessageBox.Show("This directory is not empty. Do you still want to delete it?", "Alert", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    directory.Delete(recursive: dialogResult == MessageBoxResult.Yes);
+                }
+            }
+            else if (fileData is FileInfo file)
+            {
+                file.Delete();
+            }
+
+            LeftGridViewModel.CurrentPath = LeftGridViewModel.CurrentPath;
+            RightGridViewModel.CurrentPath = RightGridViewModel.CurrentPath;
         }
     }
 }
